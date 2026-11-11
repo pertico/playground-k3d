@@ -1,16 +1,29 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: whoami-cert
+  namespace: default
+spec:
+  secretName: whoami-tls-secret
+  dnsNames:
+    - whoami.localhost
+  issuerRef:
+    name: local-ca-issuer
+    kind: ClusterIssuer
+---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: whoami-ingressroute
-  namespace: traefik
+  namespace: kube-system
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`whoami.k8s.localhost`)
+    - match: Host(`whoami.localhost`)
       kind: Rule
       services:
         - name: whoami
           port: 80
   tls:
-    certResolver: stepacme # Dispara inmediatamente la petición a Step-CA
+    secretName: whoami-tls-secret

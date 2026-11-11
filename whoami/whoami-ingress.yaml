@@ -6,6 +6,7 @@ metadata:
   annotations:
     # Indica a Traefik que la entrada HTTPS debe ser el entryPoint 'websecure'
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    cert-manager.io/cluster-issuer: local-ca-issuer
 spec:
   ingressClassName: traefik
   rules:
@@ -19,3 +20,7 @@ spec:
                 name: whoami
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - whoami.localhost
+      secretName: whoami-tls-secret
