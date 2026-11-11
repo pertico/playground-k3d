@@ -5,12 +5,25 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    ports:
+      web:
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+              permanent: true
+    api:
+      dashboard: true
+      insecure: true
     ingressRoute:
       dashboard:
         enabled: true
         entryPoints:
-        - web
-        matchRule: Host(`traefik.localhost`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+        - websecure
+        matchRule: Host(`traefik.localhost`)
+        tls:
+          secretName: traefik-custom-cert
     logs:
       access:
         enabled: true
