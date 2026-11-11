@@ -24,6 +24,7 @@ spec:
         matchRule: Host(`traefik.localhost`)
         tls:
           secretName: traefik-custom-cert
-    logs:
-      access:
+    accessLog:
         enabled: true
+    metrics:
+      prometheus: null
