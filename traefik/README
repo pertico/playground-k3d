@@ -1,0 +1,2 @@
+kubectl create secret tls traefik-custom-cert   --cert=traefik/tls/traefik.localhost.crt   --key=traefik/tls/traefik.localhost.key   -n kube-system
+kubectl apply -f traefik/traefik-https.yaml
